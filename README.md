@@ -26,3 +26,44 @@ Executor berfungsi untuk mengambil task dari queue, melakukan polling terhadap f
 Ketika future belum selesai, task akan disimpan kembali agar bisa dilanjutkan ketika sudah siap. drop(spawner) berfungsi untuk menutup sisi pengirim task sehingga executor mengetahui bahwa tidak akan ada task baru lagi.
 
 Ketika drop(spawner) dikomen/dihapus, program tidak langsung selesai walaupun task sudah mencetak output. Hal ini terjadi karena channel pengirim masih hidup, sehingga executor masih menunggu kemungkinan ada task baru yang masuk. Ketika drop(spawner) dikembalikan, executor dapat berhenti setelah semua task di queue selesai dijalankan.
+
+# Experiment 2.1: Original code, and how it run
+
+## Screenshot
+
+![Experiment 2.1 Original Chat](images/experiment-2-1-original-chat.png)
+
+## How to Run
+
+To run the broadcast chat application, first enter the `chat-async` directory.
+
+```bash
+cd chat-async
+```
+
+Kemudian jalankan server dengan command berikut:
+```bash
+cargo run --bin server
+```
+
+Server akan berjalan pada alamat 127.0.0.1:2000.
+
+Setelah server berjalan, buka tiga terminal baru untuk menjalankan tiga client. Pada masing-masing terminal client, masuk ke folder project chat:
+```bash
+cd chat-async
+```
+
+Lalu jalankan command berikut:
+```bash
+cargo run --bin client
+```
+
+Setelah semua client berhasil terhubung ke server, ketik pesan dari salah satu client. Pesan tersebut akan dikirim ke server, lalu server akan membroadcast pesan tersebut ke client-client yang sedang terhubung.
+
+### Penjelasan
+
+Pada eksperimen ini, saya menjalankan satu server dan tiga client sesuai instruksi tutorial. Server berperan sebagai pusat koneksi yang menerima pesan dari client melalui websocket. Setiap client terhubung ke server menggunakan alamat ws://127.0.0.1:2000.
+
+Ketika salah satu client mengetik pesan, pesan tersebut dikirim ke server. Server kemudian menerima pesan tersebut dan mengirimkannya kembali melalui broadcast channel ke client-client yang terhubung. Dengan demikian, pesan yang diketik dari satu client dapat terlihat di client lainnya.
+
+Eksperimen ini menunjukkan penggunaan asynchronous programming pada aplikasi chat. Server perlu menangani beberapa client secara bersamaan, menerima pesan dari client, dan mengirimkan pesan ke client lain tanpa harus menunggu satu proses selesai terlebih dahulu. Karena itu, websocket dan asynchronous programming cocok digunakan untuk kasus broadcast chat seperti ini.
