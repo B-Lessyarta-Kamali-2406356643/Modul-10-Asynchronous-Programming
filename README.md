@@ -81,3 +81,17 @@ Pada eksperimen ini, saya mengubah port websocket dari 2000 menjadi 8080. Peruba
 Perubahan perlu dilakukan pada kedua sisi karena websocket adalah koneksi antara client dan server. Jika hanya server yang diubah tetapi client masih mengarah ke port lama, client tidak akan bisa terhubung. Sebaliknya, jika hanya client yang diubah tetapi server masih berjalan di port lama, koneksi juga gagal.
 
 Protocol yang digunakan tetap sama, yaitu ws. Protocol ini didefinisikan pada URI websocket di file src/bin/client.rs, yaitu pada bagian ws://127.0.0.1:8080. Setelah port diubah pada server dan client, aplikasi tetap dapat berjalan dengan baik, dan pesan dari satu client masih dapat diterima oleh client lain.
+
+# Experiment 2.3: Small changes, add IP and Port
+
+## Screenshot
+
+![Experiment 2.3 Small Changes](images/experiment-2-3-small-changes.png)
+
+## Penjelasan
+
+Pada eksperimen ini, saya menambahkan informasi IP dan port pengirim pada pesan yang diterima oleh client. Perubahan dilakukan di file src/bin/server.rs, khususnya pada fungsi handle_connection. Bagian yang diubah adalah ketika server menerima pesan dari salah satu client, sebelum pesan tersebut dikirim melalui broadcast channel.
+
+Sebelumnya, server hanya mengirim isi pesan saja dengan bcast_tx.send(text.to_string()). Setelah dimodifikasi, server mengirim pesan dengan format format!("{addr}: {text}"). Variabel addr berisi alamat socket client yang mengirim pesan, sehingga client lain dapat melihat dari IP dan port mana pesan berasal.
+
+Perubahan ini dilakukan di sisi server karena server adalah pihak yang menerima koneksi dari semua client dan mengetahui alamat masing-masing client. Dengan menambahkan informasi IP dan port di server, setiap pesan yang dibroadcast ke client menjadi lebih informatif. Setelah perubahan dilakukan, aplikasi tetap berjalan dengan baik, dan pesan yang diterima client menampilkan alamat pengirim beserta isi pesannya.
