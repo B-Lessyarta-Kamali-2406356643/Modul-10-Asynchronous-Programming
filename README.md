@@ -67,3 +67,17 @@ Pada eksperimen ini, saya menjalankan satu server dan tiga client sesuai instruk
 Ketika salah satu client mengetik pesan, pesan tersebut dikirim ke server. Server kemudian menerima pesan tersebut dan mengirimkannya kembali melalui broadcast channel ke client-client yang terhubung. Dengan demikian, pesan yang diketik dari satu client dapat terlihat di client lainnya.
 
 Eksperimen ini menunjukkan penggunaan asynchronous programming pada aplikasi chat. Server perlu menangani beberapa client secara bersamaan, menerima pesan dari client, dan mengirimkan pesan ke client lain tanpa harus menunggu satu proses selesai terlebih dahulu. Karena itu, websocket dan asynchronous programming cocok digunakan untuk kasus broadcast chat seperti ini.
+
+# Experiment 2.2: Modifying port
+
+## Screenshot
+
+![Experiment 2.2 Modifying Port](images/experiment-2-2-modifying-port.png)
+
+## Penjelasan
+
+Pada eksperimen ini, saya mengubah port websocket dari 2000 menjadi 8080. Perubahan dilakukan pada dua sisi, yaitu server dan client. Pada sisi server, port diubah di file src/bin/server.rs, tepatnya pada bagian TcpListener::bind("127.0.0.1:8080"). Pada sisi client, port diubah di file src/bin/client.rs, tepatnya pada bagian URI websocket menjadi ws://127.0.0.1:8080.
+
+Perubahan perlu dilakukan pada kedua sisi karena websocket adalah koneksi antara client dan server. Jika hanya server yang diubah tetapi client masih mengarah ke port lama, client tidak akan bisa terhubung. Sebaliknya, jika hanya client yang diubah tetapi server masih berjalan di port lama, koneksi juga gagal.
+
+Protocol yang digunakan tetap sama, yaitu ws. Protocol ini didefinisikan pada URI websocket di file src/bin/client.rs, yaitu pada bagian ws://127.0.0.1:8080. Setelah port diubah pada server dan client, aplikasi tetap dapat berjalan dengan baik, dan pesan dari satu client masih dapat diterima oleh client lain.
