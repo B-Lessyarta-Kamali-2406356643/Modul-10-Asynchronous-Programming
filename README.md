@@ -143,7 +143,7 @@ Setelah penyesuaian tersebut, webclient berhasil dijalankan dan dapat menampilka
 
 Pada eksperimen ini, saya menambahkan kreativitas pada webclient YewChat dengan mengubah tampilan halaman utama agar lebih menarik dan mudah dipahami. Perubahan dilakukan pada file src/lib.rs, pada komponen Main yang dirender oleh Yew.
 
-Saya menambahkan layout berbentuk card, background gradient Biru Merah, judul yang lebih jelas, informasi port webclient dan websocket server, dan catatan kreatif mengenai tujuan eksperimen. Perubahan ini tidak mengubah konsep utama dari tutorial, tetapi membuat tampilan webclient lebih informatif secara visual.
+Saya menambahkan layout berbentuk card, background gradient yellow and pink, judul yang lebih jelas, informasi port webclient dan websocket server, dan chat interface. Perubahan ini tidak mengubah konsep utama dari tutorial, tetapi membuat tampilan webclient lebih informatif secara visual.
 
 Webclient tetap dijalankan melalui localhost:8000, sedangkan websocket server tetap berjalan pada localhost:8080. Dengan perubahan ini, pengguna dapat langsung memahami bahwa aplikasi terdiri dari dua bagian, yaitu webclient berbasis Yew dan websocket server.
 
