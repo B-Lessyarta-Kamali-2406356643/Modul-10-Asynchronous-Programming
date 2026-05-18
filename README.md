@@ -146,3 +146,39 @@ Pada eksperimen ini, saya menambahkan kreativitas pada webclient YewChat dengan 
 Saya menambahkan layout berbentuk card, background gradient Biru Merah, judul yang lebih jelas, informasi port webclient dan websocket server, dan catatan kreatif mengenai tujuan eksperimen. Perubahan ini tidak mengubah konsep utama dari tutorial, tetapi membuat tampilan webclient lebih informatif secara visual.
 
 Webclient tetap dijalankan melalui localhost:8000, sedangkan websocket server tetap berjalan pada localhost:8080. Dengan perubahan ini, pengguna dapat langsung memahami bahwa aplikasi terdiri dari dua bagian, yaitu webclient berbasis Yew dan websocket server.
+
+# Bonus: Rust Websocket server for YewChat!
+
+## Screenshot
+
+![Bonus Rust WebSocket Server](images/bonus-rust-websocket-server.png)
+
+## How to Run
+
+Pada bagian bonus ini, saya mengganti websocket server JavaScript dari Tutorial 3 dengan websocket server berbasis Rust yang dibuat dari pengembangan server pada Tutorial 2. Server Rust dijalankan dari folder `chat-async`.
+
+```bash
+cd chat-async
+cargo run --bin rust_yew_server
+```
+
+Server Rust berjalan pada alamat 127.0.0.1:8080.
+
+Setelah server Rust berjalan, webclient YewChat dijalankan dari folder YewChat.
+
+```bash
+cd YewChat
+RUSTFLAGS="-C target-feature=-reference-types" npm start
+```
+
+Webclient dapat dibuka melalui browser pada alamat http://localhost:8000/.
+
+### Penjelasan
+
+Pada bagian bonus ini, saya membuat websocket server berbasis Rust agar YewChat tidak lagi bergantung pada server JavaScript tersebut. Server Rust dibuat dalam file chat-async/src/bin/rust_yew_server.rs.
+
+Perubahan utama yang dilakukan adalah membuat server Rust berjalan pada port 8080, karena YewChat mengharapkan websocket server berada pada localhost:8080. Server ini menerima koneksi websocket dari client, membaca pesan yang dikirim oleh client, lalu membroadcast pesan tersebut ke client lain yang terhubung.
+
+Server bonus ini meneruskan pesan dalam bentuk text apa adanya. Hal ini penting karena pada Tutorial 3, pesan dari YewChat dapat dikirim sebagai JSON yang sudah diserialisasi menjadi text message. Jika server menambahkan prefix seperti IP dan port ke dalam isi pesan, format JSON dapat rusak. Karena itu, server Rust pada bonus ini tidak mengubah isi pesan, tetapi hanya meneruskan text message yang diterima.
+
+Perubahan ini dapat dianggap berhasil karena websocket server JavaScript dapat digantikan oleh server Rust yang berjalan pada port yang sama, yaitu 8080. Menurut saya, versi Rust lebih menarik untuk konteks pembelajaran asynchronous programming karena seluruh alur server dapat dipahami dalam bahasa yang sama dengan materi tutorial. Namun, versi JavaScript lebih praktis untuk web development karena ekosistemnya lebih umum digunakan untuk aplikasi frontend dan websocket berbasis browser.
