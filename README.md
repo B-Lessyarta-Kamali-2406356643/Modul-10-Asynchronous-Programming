@@ -95,3 +95,40 @@ Pada eksperimen ini, saya menambahkan informasi IP dan port pengirim pada pesan 
 Sebelumnya, server hanya mengirim isi pesan saja dengan bcast_tx.send(text.to_string()). Setelah dimodifikasi, server mengirim pesan dengan format format!("{addr}: {text}"). Variabel addr berisi alamat socket client yang mengirim pesan, sehingga client lain dapat melihat dari IP dan port mana pesan berasal.
 
 Perubahan ini dilakukan di sisi server karena server adalah pihak yang menerima koneksi dari semua client dan mengetahui alamat masing-masing client. Dengan menambahkan informasi IP dan port di server, setiap pesan yang dibroadcast ke client menjadi lebih informatif. Setelah perubahan dilakukan, aplikasi tetap berjalan dengan baik, dan pesan yang diterima client menampilkan alamat pengirim beserta isi pesannya.
+
+# Experiment 3.1: Original code
+
+## Screenshot
+
+![Experiment 3.1 Original Code](images/experiment-3-1-original-code.png)
+
+## How to Run
+
+Pada eksperimen ini, saya menjalankan dua project sesuai instruksi tutorial, yaitu `SimpleWebsocketServer` sebagai websocket server dan `YewChat` sebagai webclient.
+
+Pertama, websocket server dijalankan dari folder `SimpleWebsocketServer`.
+
+```bash
+cd SimpleWebsocketServer
+npm i
+npm start
+```
+
+Server berjalan pada localhost:8080.
+
+Setelah itu, webclient dijalankan dari folder YewChat.
+
+```bash
+cd YewChat
+npm i
+RUSTFLAGS="-C target-feature=-reference-types" npm start
+```
+
+Webclient dapat dibuka melalui browser pada alamat http://localhost:8000/.
+
+### Penjelasan
+Pada eksperimen ini, saya menjalankan websocket server dan webclient sesuai instruksi tutorial. Websocket server berjalan pada port 8080, sedangkan webclient YewChat berjalan pada port 8000. Ketika localhost:8080 dibuka langsung melalui browser, browser menampilkan pesan Upgrade Required karena port tersebut merupakan websocket server dan bukan halaman web biasa.
+
+Project YewChat yang digunakan merupakan project lama, sehingga terdapat beberapa penyesuaian agar dapat dijalankan pada environment Rust saat ini. Dependency wasm-bindgen perlu disesuaikan karena versi lama tidak kompatibel dengan Rust terbaru. Webpack juga perlu diperbarui agar dapat memproses hasil build WebAssembly. Selain itu, webclient dijalankan menggunakan RUSTFLAGS="-C target-feature=-reference-types".
+
+Setelah penyesuaian tersebut, webclient berhasil dijalankan dan dapat menampilkan halaman YewChat pada localhost:8000. Eksperimen ini menunjukkan perbedaan antara websocket server dan webclient berbasis browser. Server websocket bertugas menangani koneksi, sedangkan webclient bertugas menampilkan antarmuka aplikasi kepada pengguna.
