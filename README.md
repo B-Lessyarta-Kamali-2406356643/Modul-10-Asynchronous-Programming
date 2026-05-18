@@ -132,3 +132,17 @@ Pada eksperimen ini, saya menjalankan websocket server dan webclient sesuai inst
 Project YewChat yang digunakan merupakan project lama, sehingga terdapat beberapa penyesuaian agar dapat dijalankan pada environment Rust saat ini. Dependency wasm-bindgen perlu disesuaikan karena versi lama tidak kompatibel dengan Rust terbaru. Webpack juga perlu diperbarui agar dapat memproses hasil build WebAssembly. Selain itu, webclient dijalankan menggunakan RUSTFLAGS="-C target-feature=-reference-types".
 
 Setelah penyesuaian tersebut, webclient berhasil dijalankan dan dapat menampilkan halaman YewChat pada localhost:8000. Eksperimen ini menunjukkan perbedaan antara websocket server dan webclient berbasis browser. Server websocket bertugas menangani koneksi, sedangkan webclient bertugas menampilkan antarmuka aplikasi kepada pengguna.
+
+# Experiment 3.2: Be Creative!
+
+## Screenshot
+
+![Experiment 3.2 Be Creative](images/experiment-3-2-be-creative.png)
+
+## Penjelasan
+
+Pada eksperimen ini, saya menambahkan kreativitas pada webclient YewChat dengan mengubah tampilan halaman utama agar lebih menarik dan mudah dipahami. Perubahan dilakukan pada file src/lib.rs, pada komponen Main yang dirender oleh Yew.
+
+Saya menambahkan layout berbentuk card, background gradient Biru Merah, judul yang lebih jelas, informasi port webclient dan websocket server, dan catatan kreatif mengenai tujuan eksperimen. Perubahan ini tidak mengubah konsep utama dari tutorial, tetapi membuat tampilan webclient lebih informatif secara visual.
+
+Webclient tetap dijalankan melalui localhost:8000, sedangkan websocket server tetap berjalan pada localhost:8080. Dengan perubahan ini, pengguna dapat langsung memahami bahwa aplikasi terdiri dari dua bagian, yaitu webclient berbasis Yew dan websocket server.
